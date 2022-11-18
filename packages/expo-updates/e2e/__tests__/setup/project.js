@@ -78,20 +78,20 @@ async function initAsync(projectRoot, { repoRoot, runtimeVersion, localCliBin })
     ...packageJson,
     resolutions: {
       ...packageJson.resolutions,
-      'expo-application': 'file:../expo/packages/expo-application',
-      'expo-constants': 'file:../expo/packages/expo-constants',
-      'expo-eas-client': 'file:../expo/packages/expo-eas-client',
-      'expo-error-recovery': 'file:../expo/packages/expo-error-recovery',
-      'expo-file-system': 'file:../expo/packages/expo-file-system',
-      'expo-font': 'file:../expo/packages/expo-font',
-      'expo-json-utils': 'file:../expo/packages/expo-json-utils',
-      'expo-keep-awake': 'file:../expo/packages/expo-keep-awake',
-      'expo-manifests': 'file:../expo/packages/expo-manifests',
-      'expo-modules-autolinking': 'file:../expo/packages/expo-modules-autolinking',
-      'expo-modules-core': 'file:../expo/packages/expo-modules-core',
-      'expo-splash-screen': 'file:../expo/packages/expo-splash-screen',
-      'expo-structured-headers': 'file:../expo/packages/expo-structured-headers',
-      'expo-updates-interface': 'file:../expo/packages/expo-updates-interface',
+      'expo-application': `file:${repoRoot}/packages/expo-application`,
+      'expo-constants': `file:${repoRoot}/packages/expo-constants`,
+      'expo-eas-client': `file:${repoRoot}/packages/expo-eas-client`,
+      'expo-error-recovery': `file:${repoRoot}/packages/expo-error-recovery`,
+      'expo-file-system': `file:${repoRoot}/packages/expo-file-system`,
+      'expo-font': `file:${repoRoot}/packages/expo-font`,
+      'expo-json-utils': `file:${repoRoot}/packages/expo-json-utils`,
+      'expo-keep-awake': `file:${repoRoot}/packages/expo-keep-awake`,
+      'expo-manifests': `file:${repoRoot}/packages/expo-manifests`,
+      'expo-modules-autolinking': `file:${repoRoot}/packages/expo-modules-autolinking`,
+      'expo-modules-core': `file:${repoRoot}/packages/expo-modules-core`,
+      'expo-splash-screen': `file:${repoRoot}/packages/expo-splash-screen`,
+      'expo-structured-headers': `file:${repoRoot}/packages/expo-structured-headers`,
+      'expo-updates-interface': `file:${repoRoot}/packages/expo-updates-interface`,
     },
   };
   await fs.writeFile(
@@ -103,10 +103,10 @@ async function initAsync(projectRoot, { repoRoot, runtimeVersion, localCliBin })
     'yarn',
     [
       'add',
-      'file:../expo/packages/expo-updates',
-      'file:../expo/packages/expo',
-      'file:../expo/packages/expo-splash-screen',
-      'file:../expo/packages/expo-status-bar',
+      `file:${repoRoot}/packages/expo-updates`,
+      `file:${repoRoot}/packages/expo`,
+      `file:${repoRoot}/packages/expo-splash-screen`,
+      `file:${repoRoot}/packages/expo-status-bar`,
     ],
     {
       cwd: projectRoot,
@@ -195,6 +195,9 @@ async function initAsync(projectRoot, { repoRoot, runtimeVersion, localCliBin })
     'utf-8'
   );
 
+  // Remove template tarball
+  await fs.rm(localTemplatePathName);
+
   return projectRoot;
 }
 
@@ -211,7 +214,7 @@ async function setupBasicAppAsync(projectRoot, localCliBin) {
   // export update for test server to host
   await fs.rm(path.join(projectRoot, 'dist'), { force: true, recursive: true });
   await spawnAsync('expo-cli', ['export', '--public-url', 'https://u.expo.dev/dummy-url'], {
-  //await spawnAsync(localCliBin, ['export'], {
+    //await spawnAsync(localCliBin, ['export'], {
     cwd: projectRoot,
     stdio: 'inherit',
   });
@@ -245,7 +248,7 @@ async function setupAssetsAppAsync(projectRoot, localCliBin) {
   // export update for test server to host
   await fs.rm(path.join(projectRoot, 'dist'), { force: true, recursive: true });
   await spawnAsync('expo-cli', ['export', '--public-url', 'https://u.expo.dev/dummy-url'], {
-  //await spawnAsync(localCliBin, ['export'], {
+    //await spawnAsync(localCliBin, ['export'], {
     cwd: projectRoot,
     stdio: 'inherit',
   });
